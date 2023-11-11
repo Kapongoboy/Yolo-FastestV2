@@ -1,0 +1,22 @@
+[name]
+model_name=robovac
+
+[train-configure]
+epochs=20
+steps=10,16
+batch_size=4
+subdivisions=1
+learning_rate=0.001
+
+[model-configure]
+pre_weights=None
+classes=9
+width=352
+height=352
+anchor_num=3
+anchors=6.99,9.01, 13.93,19.13, 14.13,65.61, 20.84,15.73, 23.17,24.09, 49.47,57.04
+
+[data-configure]
+train=/home/plamedi/Documents/Datasets/train.txt
+val=/home/plamedi/Documents/Datasets/val.txt
+names=/home/plamedi/Documents/Datasets/category.names
