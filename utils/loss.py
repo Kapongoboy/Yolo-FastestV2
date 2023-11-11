@@ -116,6 +116,10 @@ def build_target(preds, targets, cfg, device):
 
             # Append
             a = t[:, 6].long()  # anchor indices
+            # print(f"gj and gi types are: {type(gj)} {type(gi)} with shapes {gj.shape} {gi.shape}")
+            gain = gain.to(torch.int64)
+            # print(f"gain {gain_index} type is: {type(gain[gain_index])}\n" for gain_index in range(len(gain)))
+            # print(f"dtype gain {gain.dtype} and gain shape: {type(gain.shape)}")
             indices.append((b, a, gj.clamp_(0, gain[3] - 1), gi.clamp_(0, gain[2] - 1)))  # image, anchor, grid indices
             tbox.append(torch.cat((gxy - gij, gwh), 1))  # box
             anch.append(anchors_cfg[a])  # anchors
