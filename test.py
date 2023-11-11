@@ -32,7 +32,10 @@ if __name__ == '__main__':
     
     #数据预处理
     ori_img = cv2.imread(opt.img)
-    res_img = cv2.resize(ori_img, (cfg["width"], cfg["height"]), interpolation = cv2.INTER_LINEAR) 
+    if cfg["width"] is not None and cfg["height"] is not None:
+        res_img = cv2.resize(ori_img, (cfg["width"], cfg["height"]), interpolation = cv2.INTER_LINEAR) 
+    else:
+        raise ValueError("Expected the configuration to hve values for width and height")
     img = res_img.reshape(1, cfg["height"], cfg["width"], 3)
     img = torch.from_numpy(img.transpose(0,3, 1, 2))
     img = img.to(device).float() / 255.0
@@ -50,9 +53,10 @@ if __name__ == '__main__':
 
     #加载label names
     LABEL_NAMES = []
-    with open(cfg["names"], 'r') as f:
-	    for line in f.readlines():
-	        LABEL_NAMES.append(line.strip())
+    if cfg["names"] is not None:
+        with open(cfg["names"], 'r') as f:
+            for line in f.readlines():
+                LABEL_NAMES.append(line.strip())
     
     h, w, _ = ori_img.shape
     scale_h, scale_w = h / cfg["height"], w / cfg["width"]
